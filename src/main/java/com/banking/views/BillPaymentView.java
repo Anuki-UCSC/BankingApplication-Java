@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BillPaymentView {
+public class BillPaymentView implements BankingView {
 
     private String selectedOption;
     private String accountNumber;
@@ -32,7 +32,7 @@ public class BillPaymentView {
                     "dialog bill"));
 
     public Scanner scanner = new Scanner(System.in);
-    public void showBillPayment() throws Exception {
+    public void showView() throws Exception {
 
         System.out.println();
         System.out.println();
@@ -92,11 +92,11 @@ public class BillPaymentView {
             System.out.printf("LKR %d has been successfully paid to account %s.",amount, accountNumber);
             System.out.println();
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }else{
             System.out.println("Transaction failed!");
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }
     }
 
@@ -104,7 +104,7 @@ public class BillPaymentView {
         if(!isvalid) {
             System.out.println("Your account balance in insufficient! Unable to proceed.");
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }
     }
 

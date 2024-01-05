@@ -14,7 +14,7 @@ import com.banking.services.TransferService;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TransferMoneyView {
+public class TransferMoneyView implements BankingView{
 
 
     private BackToMenuView backToMenuView;
@@ -29,7 +29,7 @@ public class TransferMoneyView {
     private final InputValidations inputValidations = new InputValidations();
 
 
-    public TransferMoneyView() {
+    public void showView() {
         BankOption bankOption1 = new BankOption(1, "Own Bank", "OWN");
         BankOption bankOption2 = new BankOption(2, "Other Bank", "OTHER");
         bankOptionsList.add(bankOption1);
@@ -105,7 +105,7 @@ public class TransferMoneyView {
         }else {
             System.out.println("Invalid input");
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }
     }
     public void receiverDetails(String code, String accountNumber) throws Exception {
@@ -120,7 +120,7 @@ public class TransferMoneyView {
 
             default:
                 this.backToMenuView = new BackToMenuView();
-                this.backToMenuView.BackToMenu();
+                this.backToMenuView.showView();
                 break;
         }
     }
@@ -174,11 +174,11 @@ public class TransferMoneyView {
             System.out.printf("LKR %d has been successfully paid to account %s.",transferDTO.getAmount(), transferDTO.getToAccountNumber());
             System.out.println();
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }else{
             System.out.println("Transaction failed!");
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }
     }
 
@@ -186,7 +186,7 @@ public class TransferMoneyView {
         if(!isvalid) {
             System.out.println("Your account balance in insufficient! Unable to proceed.");
             this.backToMenuView = new BackToMenuView();
-            boolean backToMenu = this.backToMenuView.BackToMenu();
+            this.backToMenuView.showView();
         }
     }
 

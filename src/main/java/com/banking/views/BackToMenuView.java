@@ -2,9 +2,9 @@ package com.banking.views;
 
 import java.util.Scanner;
 
-public class BackToMenuView {
+public class BackToMenuView  implements BankingView{
 
-    public boolean BackToMenu() throws Exception {
+    public void showView() throws Exception {
         Scanner scanner = new Scanner(System.in);
         boolean loop = false;
         boolean returnval = false;
@@ -32,6 +32,5 @@ public class BackToMenuView {
             BankServiceView bankServiceView = new BankServiceView();
             bankServiceView.provideListOfBankServicesToChoose();
         }
-    return returnval;
     };
 }

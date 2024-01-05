@@ -8,7 +8,7 @@ import com.banking.shared.sharedData.AccountData;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class AccountHistoryView {
+public class AccountHistoryView implements BankingView{
 
     private AccountHistoryService accountHistoryService;
     private BackToMenuView backToMenuView;
@@ -17,7 +17,7 @@ public class AccountHistoryView {
     public AccountHistoryView() {
     }
 
-    public void showAccountHistory() throws Exception {
+    public void showView() throws Exception {
         System.out.println("######################################################");
         System.out.println();
         System.out.println();
@@ -31,7 +31,7 @@ public class AccountHistoryView {
         }
 
         this.backToMenuView = new BackToMenuView();
-        boolean backToMenu = this.backToMenuView.BackToMenu();
+        this.backToMenuView.showView();
 
     }
 }

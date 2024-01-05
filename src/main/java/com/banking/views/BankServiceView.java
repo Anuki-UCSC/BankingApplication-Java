@@ -17,28 +17,28 @@ public class BankServiceView {
         System.out.print("Select the option number : ");
         int serviceNumber = scanner.nextInt();
 
+        BankingView view = null;
+
         switch (serviceNumber) {
             case 1:
-                AccountHistoryView accountHistoryView = new AccountHistoryView();
-                accountHistoryView.showAccountHistory();
+                view = new AccountHistoryView();
                 break;
             case 2:
-                BillPaymentView billPaymentView = new BillPaymentView();
-                billPaymentView.showBillPayment();
+                view = new BillPaymentView();
                 break;
             case 3:
-                TransferMoneyView transferMoneyView = new TransferMoneyView();
-                transferMoneyView.showTransferMoney();
+                view = new TransferMoneyView();
                 break;
             case 4:
-                ContactBankView contactBankView = new ContactBankView();
-                contactBankView.showContactBank();
+                view = new ContactBankView();
                 break;
             default:
                 System.out.println("-----------------");
                 System.out.printf("Unexpected input %d !",serviceNumber);
-                BackToMenuView backToMenuView = new BackToMenuView();
-                boolean backToMenu = backToMenuView.BackToMenu();
+                view = new BackToMenuView();
+                break;
         }
+        view.showView();
+
     }
 }
