@@ -32,5 +32,6 @@ public class BackToMenuView  implements BankingView{
             BankServiceView bankServiceView = new BankServiceView();
             bankServiceView.provideListOfBankServicesToChoose();
         }
+
     };
 }

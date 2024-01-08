@@ -5,10 +5,12 @@ import com.banking.dataAccess.BillDA;
 import com.banking.models.Bill;
 import com.banking.services.BillService;
 import com.banking.services.OtpService;
+import com.banking.shared.exceptions.MinusInputValueException;
 import com.banking.shared.sharedData.CustomerData;
 import com.banking.dataAccess.CustomerDA;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,7 +46,12 @@ public class BillPaymentView implements BankingView {
             System.out.println();
         }
         System.out.print("Enter option number : ");
-        int selectedOptionNumber = scanner.nextInt();
+        int selectedOptionNumber = 0;
+        selectedOptionNumber = scanner.nextInt();
+        if(selectedOptionNumber < 0){
+            throw new MinusInputValueException("options does not accept minus values.");
+        }
+
         selectedOption = billOptions.get(selectedOptionNumber-1);
 
         //balance validation
@@ -60,12 +67,15 @@ public class BillPaymentView implements BankingView {
         this.handleTransaction(enteredOtp);
     }
 
-    public boolean accountNumberAndAmountValid(String selectedOption){
+    public boolean accountNumberAndAmountValid(String selectedOption) throws MinusInputValueException {
         System.out.print("Enter Account Number :");
         accountNumber = scanner.next();
         System.out.println();
         System.out.print("Enter Amount :");
         amount  = scanner.nextInt();
+        if (amount<0){
+            throw new MinusInputValueException("Amount cannot be a minus value");
+        }
 
         billService = new BillService(accountDA, otpService, customerDA, billDA);
         Bill bill = new Bill(selectedOption,accountNumber,amount);

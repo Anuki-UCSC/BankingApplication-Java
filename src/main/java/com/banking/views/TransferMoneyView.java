@@ -2,6 +2,7 @@ package com.banking.views;
 
 import com.banking.dataAccess.AccountDA;
 import com.banking.services.OtpService;
+import com.banking.shared.exceptions.MinusInputValueException;
 import com.banking.shared.sharedData.CustomerData;
 import com.banking.shared.validations.InputValidations;
 import com.banking.dataAccess.CustomerDA;
@@ -29,7 +30,7 @@ public class TransferMoneyView implements BankingView{
     private final InputValidations inputValidations = new InputValidations();
 
 
-    public void showView() {
+    public TransferMoneyView() {
         BankOption bankOption1 = new BankOption(1, "Own Bank", "OWN");
         BankOption bankOption2 = new BankOption(2, "Other Bank", "OTHER");
         bankOptionsList.add(bankOption1);
@@ -42,7 +43,7 @@ public class TransferMoneyView implements BankingView{
         this.transferService = new TransferService(transferDA, accountDA, customerDA, otpService);
     }
 
-    public void showTransferMoney() throws Exception {
+    public void showView() throws Exception {
         System.out.println();
         System.out.println();
         System.out.println("################# 2. TRANSFER MONEY  ##################");
@@ -52,8 +53,7 @@ public class TransferMoneyView implements BankingView{
         this.displayServiceOptions();
 
         //get input option
-        System.out.print("Enter option : ");
-        int bankOption = scanner.nextInt();
+        int bankOption = this.getInputBankOption();
 
         //get input account number
         String toAccountNumber = this.getTransferAccountNumberAsUserInput();
@@ -80,6 +80,16 @@ public class TransferMoneyView implements BankingView{
             System.out.printf("%d . %s \n", option.getNumber(), option.getDisplayName());
         }
     }
+
+    public int getInputBankOption() throws MinusInputValueException {
+        System.out.print("Enter option : ");
+        int bankOption = scanner.nextInt();
+        if(bankOption < 0){
+            throw new MinusInputValueException("options does not accept minus values.");
+        }
+        return bankOption;
+    }
+
     private String getTransferAccountNumberAsUserInput(){
         String toAccountNumber;
         boolean isValidAccountNumber;
@@ -125,7 +135,7 @@ public class TransferMoneyView implements BankingView{
         }
     }
 
-    private void ownAccount(String accountNumber){
+    private void ownAccount(String accountNumber) throws MinusInputValueException {
         Transfer receiverDetails = transferService.getReceiverDetails(accountNumber);
         transferDTO.setAccountName(receiverDetails.getAccountName());
         transferDTO.setBankName(receiverDetails.getBankName());
@@ -134,13 +144,15 @@ public class TransferMoneyView implements BankingView{
         System.out.println("Bank Name     : " + transferDTO.getBankName());
         System.out.println("Branch Code   : " + transferDTO.getBranchCode());
         System.out.print("Amount        : ");
-        transferDTO.setAmount(scanner.nextInt());
+        int amount = scanner.nextInt();
+        if (amount<0){throw new MinusInputValueException("Amount cannot be a minus value");}
+        transferDTO.setAmount(amount);
         scanner.nextLine();
         System.out.print("Purpose       : ");
         transferDTO.setPurpose(scanner.nextLine());
     }
 
-    private void otherAccount(String accountNumber) {
+    private void otherAccount(String accountNumber) throws MinusInputValueException {
         scanner.nextLine();
         System.out.print("Account Name : ");
         transferDTO.setAccountName(scanner.nextLine());
@@ -149,7 +161,9 @@ public class TransferMoneyView implements BankingView{
         System.out.print("Branch Code   : ");
         transferDTO.setBranchCode(scanner.nextInt());
         System.out.print("Amount        : ");
-        transferDTO.setAmount(scanner.nextInt());
+        int amount = scanner.nextInt();
+        if (amount<0){throw new MinusInputValueException("Amount cannot be a minus value");}
+        transferDTO.setAmount(amount);
         scanner.nextLine();
         System.out.print("Purpose       : ");
         transferDTO.setPurpose(scanner.nextLine());
