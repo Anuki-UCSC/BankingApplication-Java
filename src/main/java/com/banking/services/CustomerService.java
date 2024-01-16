@@ -3,26 +3,24 @@ package com.banking.services;
 import com.banking.models.Customer;
 import com.banking.shared.sharedData.AccountData;
 import com.banking.shared.sharedData.CustomerData;
-import com.banking.dataAccess.CustomerDA;
+import com.banking.dataAccess.CustomerDao;
 
 public class CustomerService {
 
-    private CustomerDA customerDA;
+    private CustomerDao customerDao;
 
-    public CustomerService(CustomerDA customerDA) {
-        this.customerDA = customerDA;
+    public CustomerService(CustomerDao customerDao) {
+        this.customerDao = customerDao;
     }
 
     public boolean checkCustomer(Customer customer){
-        boolean validated = customerDA.checkCustomer(customer.getName(), customer.getNic(), customer.getAccount().getAccountNumber());
+        boolean validated = customerDao.checkCustomer(customer.getName(), customer.getNic(), customer.getAccount().getAccountNumber());
         return validated;
     }
 
-    public void setCustomerData(boolean isValid, Customer customer){
-        if(isValid){
+    public void setCustomerData(Customer customer){
             CustomerData.setName(customer.getName());
             CustomerData.setNic(customer.getNic());
             AccountData.setAccountNumber(customer.getAccount().getAccountNumber());
-        }
     }
 }

@@ -1,11 +1,10 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.dataAccess.CustomerDA;
-import com.banking.dataAccess.TransferDA;
+import com.banking.dataAccess.AccountDao;
+import com.banking.dataAccess.CustomerDao;
+import com.banking.dataAccess.TransferDao;
 import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,11 +22,11 @@ class TransferServiceTest {
     private TransferService underTest;
 
     @Mock
-    private TransferDA transferDA;
+    private TransferDao transferDao;
     @Mock
-    private AccountDA accountDA;
+    private AccountDao accountDao;
     @Mock
-    private CustomerDA customerDA;
+    private CustomerDao customerDao;
     @Mock
     private OtpService otpService;
 
@@ -40,11 +39,11 @@ class TransferServiceTest {
         Transfer transferRec = new Transfer("0110006843", "A S Perera", "People's Bank" , 103);
 
         ///when
-        when(transferDA.getReceiverDetailsByAccountNumber()).thenReturn(transferRec);
+        when(transferDao.getReceiverDetailsByAccountNumber()).thenReturn(transferRec);
         Transfer actualOutput = underTest.getReceiverDetails(accountNumber);
 
         // then
-        verify(transferDA, Mockito.times(1)).getReceiverDetailsByAccountNumber();
+        verify(transferDao, Mockito.times(1)).getReceiverDetailsByAccountNumber();
     }
 
 
@@ -55,12 +54,12 @@ class TransferServiceTest {
         String nic = "844442111v";
 
         // when
-        when(customerDA.retrievePhoneNumber(user,nic)).thenReturn("0712020321");
+        when(customerDao.retrievePhoneNumber(user,nic)).thenReturn("0712020321");
         when(otpService.sentOTP("0712020321")).thenReturn(true);
         underTest.sendOTP(user,nic);
 
         // then (Assert)
-        verify(customerDA,Mockito.times(1)).retrievePhoneNumber(user,nic);
+        verify(customerDao,Mockito.times(1)).retrievePhoneNumber(user,nic);
         verify(otpService, Mockito.times(1)).sentOTP("0712020321");
     }
 
@@ -84,6 +83,6 @@ class TransferServiceTest {
         // then
         assertFalse(actualOutput);
         verify(otpService, Mockito.times(1)).authorizeOTP(userGivenOtp);
-        verify(transferDA, Mockito.times(0)).transaction(transferDto);
+        verify(transferDao, Mockito.times(0)).transaction(transferDto);
     }
 }

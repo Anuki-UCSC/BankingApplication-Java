@@ -1,6 +1,6 @@
 package com.banking.views;
 
-import com.banking.dataAccess.AccountHistoryDA;
+import com.banking.dataAccess.AccountHistoryDao;
 import com.banking.models.AccountHistory;
 import com.banking.services.AccountHistoryService;
 import com.banking.shared.sharedData.AccountData;
@@ -12,7 +12,7 @@ public class AccountHistoryView implements BankingView{
 
     private AccountHistoryService accountHistoryService;
     private BackToMenuView backToMenuView;
-    private AccountHistoryDA accountHistoryDA = new AccountHistoryDA();
+    private AccountHistoryDao accountHistoryDao = new AccountHistoryDao();
 
     public AccountHistoryView() {
     }
@@ -22,7 +22,7 @@ public class AccountHistoryView implements BankingView{
         System.out.println();
         System.out.println();
         System.out.println("################# 1. ACCOUNT HISTORY ##################");
-        this.accountHistoryService = new AccountHistoryService(accountHistoryDA);
+        this.accountHistoryService = new AccountHistoryService(accountHistoryDao);
         ArrayList<AccountHistory> accountHistory = this.accountHistoryService.getAccountHistory(AccountData.getAccountNumber());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         for (AccountHistory record: accountHistory) {

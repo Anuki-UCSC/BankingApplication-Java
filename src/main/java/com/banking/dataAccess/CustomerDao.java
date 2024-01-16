@@ -1,6 +1,6 @@
 package com.banking.dataAccess;
 
-public class CustomerDA {
+public class CustomerDao {
 
 
     public boolean checkCustomer(String name, String nic, String accountNumber){

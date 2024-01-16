@@ -1,6 +1,6 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountHistoryDA;
+import com.banking.dataAccess.AccountHistoryDao;
 import com.banking.models.AccountHistory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ class AccountHistoryServiceTest {
     private AccountHistoryService underTest;
 
     @Mock
-    private AccountHistoryDA accountHistoryDA;
+    private AccountHistoryDao accountHistoryDao;
 
     @Test
     void Should_ReturnListOfAccountHistory() {
@@ -34,11 +34,11 @@ class AccountHistoryServiceTest {
         accountHistoryRecords.add(new AccountHistory(2, new Date(), "Withdrawal", 50.0f, 50.0f));
 
         // when (act)
-        when(accountHistoryDA.getAccountHistory(accountId)).thenReturn(accountHistoryRecords);
+        when(accountHistoryDao.getAccountHistory(accountId)).thenReturn(accountHistoryRecords);
         ArrayList<AccountHistory> actualOutput = underTest.getAccountHistory(accountId);
 
         // then (Assert)
-        verify(accountHistoryDA, Mockito.times(1)).getAccountHistory(accountId);
+        verify(accountHistoryDao, Mockito.times(1)).getAccountHistory(accountId);
         assertEquals(accountHistoryRecords, actualOutput);
 
     }

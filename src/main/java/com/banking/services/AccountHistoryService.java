@@ -1,20 +1,20 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountHistoryDA;
+import com.banking.dataAccess.AccountHistoryDao;
 import com.banking.models.AccountHistory;
 
 import java.util.ArrayList;
 
 public class AccountHistoryService {
 
-    private AccountHistoryDA accountHistoryDA;
+    private AccountHistoryDao accountHistoryDao;
 
-    public AccountHistoryService(AccountHistoryDA accountHistoryDA) {
-        this.accountHistoryDA = accountHistoryDA;
+    public AccountHistoryService(AccountHistoryDao accountHistoryDao) {
+        this.accountHistoryDao = accountHistoryDao;
     }
 
     public ArrayList<AccountHistory> getAccountHistory(String accountId){
-        return accountHistoryDA.getAccountHistory(accountId);
+        return accountHistoryDao.getAccountHistory(accountId);
     }
 
 }

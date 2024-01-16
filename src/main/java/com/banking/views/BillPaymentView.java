@@ -1,16 +1,15 @@
 package com.banking.views;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.dataAccess.BillDA;
+import com.banking.dataAccess.AccountDao;
+import com.banking.dataAccess.BillDao;
 import com.banking.models.Bill;
 import com.banking.services.BillService;
 import com.banking.services.OtpService;
 import com.banking.shared.exceptions.MinusInputValueException;
 import com.banking.shared.sharedData.CustomerData;
-import com.banking.dataAccess.CustomerDA;
+import com.banking.dataAccess.CustomerDao;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,10 +21,10 @@ public class BillPaymentView implements BankingView {
 
     private BackToMenuView backToMenuView;
     private BillService billService;
-    private AccountDA accountDA = new AccountDA();
-    private CustomerDA customerDA = new CustomerDA();
+    private AccountDao accountDao = new AccountDao();
+    private CustomerDao customerDao = new CustomerDao();
     private OtpService otpService = new OtpService();
-    private BillDA billDA = new BillDA();
+    private BillDao billDao = new BillDao();
 
     private ArrayList<String> billOptions = new ArrayList<String>(
             List.of("electricity bill",
@@ -52,7 +51,12 @@ public class BillPaymentView implements BankingView {
             throw new MinusInputValueException("options does not accept minus values.");
         }
 
-        selectedOption = billOptions.get(selectedOptionNumber-1);
+        try {
+            selectedOption = billOptions.get(selectedOptionNumber-1);
+        }catch (IndexOutOfBoundsException e){
+            throw new ArrayIndexOutOfBoundsException("Invalid bill option: "+ selectedOptionNumber+ " out of bounds for length "+ billOptions.size());
+        }
+
 
         //balance validation
         boolean isvalid = this.accountNumberAndAmountValid(selectedOption);
@@ -77,7 +81,7 @@ public class BillPaymentView implements BankingView {
             throw new MinusInputValueException("Amount cannot be a minus value");
         }
 
-        billService = new BillService(accountDA, otpService, customerDA, billDA);
+        billService = new BillService(accountDao, otpService, customerDao, billDao);
         Bill bill = new Bill(selectedOption,accountNumber,amount);
         return billService.accountBalanceValidation(bill);
     }
@@ -85,7 +89,7 @@ public class BillPaymentView implements BankingView {
     public int handleOTP(){
         System.out.println("Sending OTP....");
         System.out.println();
-        billService = new BillService(accountDA, otpService, customerDA, billDA);
+        billService = new BillService(accountDao, otpService, customerDao, billDao);
         billService.sendOTP(CustomerData.getName(), CustomerData.getNic());
 
         System.out.println("OTP has been sent to your registered phone number!");
