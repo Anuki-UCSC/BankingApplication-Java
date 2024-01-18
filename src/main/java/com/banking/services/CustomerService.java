@@ -7,10 +7,9 @@ import com.banking.dataAccess.CustomerDao;
 
 public class CustomerService {
 
-    private CustomerDao customerDao;
+    private CustomerDao customerDao = new CustomerDao();
 
-    public CustomerService(CustomerDao customerDao) {
-        this.customerDao = customerDao;
+    public CustomerService() {
     }
 
     public boolean checkCustomer(Customer customer){

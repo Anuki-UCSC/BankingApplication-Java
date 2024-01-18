@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class AccountHistoryService {
 
-    private AccountHistoryDao accountHistoryDao;
+    private AccountHistoryDao accountHistoryDao = new AccountHistoryDao();
 
-    public AccountHistoryService(AccountHistoryDao accountHistoryDao) {
-        this.accountHistoryDao = accountHistoryDao;
+    public AccountHistoryService() {
     }
 
     public ArrayList<AccountHistory> getAccountHistory(String accountId){

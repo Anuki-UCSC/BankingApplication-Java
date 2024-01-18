@@ -21,11 +21,6 @@ public class BillPaymentView implements BankingView {
 
     private BackToMenuView backToMenuView;
     private BillService billService;
-    private AccountDao accountDao = new AccountDao();
-    private CustomerDao customerDao = new CustomerDao();
-    private OtpService otpService = new OtpService();
-    private BillDao billDao = new BillDao();
-
     private ArrayList<String> billOptions = new ArrayList<String>(
             List.of("electricity bill",
                     "water bill",
@@ -81,7 +76,7 @@ public class BillPaymentView implements BankingView {
             throw new MinusInputValueException("Amount cannot be a minus value");
         }
 
-        billService = new BillService(accountDao, otpService, customerDao, billDao);
+        billService = new BillService();
         Bill bill = new Bill(selectedOption,accountNumber,amount);
         return billService.accountBalanceValidation(bill);
     }
@@ -89,7 +84,7 @@ public class BillPaymentView implements BankingView {
     public int handleOTP(){
         System.out.println("Sending OTP....");
         System.out.println();
-        billService = new BillService(accountDao, otpService, customerDao, billDao);
+        billService = new BillService();
         billService.sendOTP(CustomerData.getName(), CustomerData.getNic());
 
         System.out.println("OTP has been sent to your registered phone number!");

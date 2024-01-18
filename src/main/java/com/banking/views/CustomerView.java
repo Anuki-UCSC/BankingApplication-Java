@@ -23,12 +23,10 @@ public class CustomerView {
     private Customer user = new Customer();
 
 
-    private CustomerDao customerDao = new CustomerDao();
-
     public boolean askCustomerDetails() throws Exception {
         boolean isValid = false;
         try {
-            CustomerService customerService = new CustomerService(customerDao);
+            CustomerService customerService = new CustomerService();
 
             // COMMENT: 1/15/2024 This method naming convention is wrong. If the method is get, there should be a return type. But here it is void.
             // ANSWER : name of method changed according to the correct duty -> ask for user input(Name) until it is valid, and remove setting user object from the functions

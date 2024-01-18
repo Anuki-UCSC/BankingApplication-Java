@@ -9,16 +9,12 @@ import com.banking.shared.sharedData.CustomerData;
 import com.banking.dataAccess.CustomerDao;
 
 public class BillService {
-    private AccountDao accountDao;
-    private OtpService otpService;
-    private CustomerDao customerDao;
-    private BillDao billDao;
+    private BillDao billDao = new BillDao();
+    private AccountDao accountDao = new AccountDao();
+    private CustomerDao customerDao = new CustomerDao();
+    private OtpService otpService = new OtpService();
 
-    public BillService(AccountDao accountDao, OtpService otpService, CustomerDao customerDao, BillDao billDao) {
-        this.accountDao = accountDao;
-        this.otpService = otpService;
-        this.customerDao = customerDao;
-        this.billDao = billDao;
+    public BillService() {
     }
 
     public boolean accountBalanceValidation(Bill bill){

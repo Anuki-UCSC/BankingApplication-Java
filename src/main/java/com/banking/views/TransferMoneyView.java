@@ -20,11 +20,7 @@ public class TransferMoneyView implements BankingView{
 
     private BackToMenuView backToMenuView;
     private TransferService transferService;
-    private TransferDao transferDao;
-    private AccountDao accountDao;
-    private CustomerDao customerDao;
     private TransferDTO transferDTO;
-    private OtpService otpService;
     private ArrayList<BankOption> bankOptionsList = new ArrayList<BankOption>();
     public Scanner scanner = new Scanner(System.in);
     private final InputValidations inputValidations = new InputValidations();
@@ -36,11 +32,7 @@ public class TransferMoneyView implements BankingView{
         bankOptionsList.add(bankOption1);
         bankOptionsList.add(bankOption2);
         this.transferDTO = new TransferDTO();
-        this.transferDao = new TransferDao();
-        this.accountDao = new AccountDao();
-        this.customerDao = new CustomerDao();
-        this.otpService = new OtpService();
-        this.transferService = new TransferService(transferDao, accountDao, customerDao, otpService);
+        this.transferService = new TransferService();
     }
 
     public void showView() throws Exception {

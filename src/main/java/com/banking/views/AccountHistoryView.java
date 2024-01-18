@@ -12,7 +12,6 @@ public class AccountHistoryView implements BankingView{
 
     private AccountHistoryService accountHistoryService;
     private BackToMenuView backToMenuView;
-    private AccountHistoryDao accountHistoryDao = new AccountHistoryDao();
 
     public AccountHistoryView() {
     }
@@ -22,7 +21,7 @@ public class AccountHistoryView implements BankingView{
         System.out.println();
         System.out.println();
         System.out.println("################# 1. ACCOUNT HISTORY ##################");
-        this.accountHistoryService = new AccountHistoryService(accountHistoryDao);
+        this.accountHistoryService = new AccountHistoryService();
         ArrayList<AccountHistory> accountHistory = this.accountHistoryService.getAccountHistory(AccountData.getAccountNumber());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         for (AccountHistory record: accountHistory) {

@@ -9,16 +9,12 @@ import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;
 
 public class TransferService {
-    private TransferDao transferDao;
-    private AccountDao accountDao;
-    private CustomerDao customerDao;
-    private OtpService otpService;
+    private TransferDao transferDao = new TransferDao();
+    private AccountDao accountDao = new AccountDao();
+    private CustomerDao customerDao = new CustomerDao();
+    private OtpService otpService = new OtpService();
 
-    public TransferService(TransferDao transferDao, AccountDao accountDao, CustomerDao customerDao, OtpService otpService) {
-        this.transferDao = transferDao;
-        this.accountDao = accountDao;
-        this.customerDao = customerDao;
-        this.otpService = otpService;
+    public TransferService() {
     }
 
     public Transfer getReceiverDetails(String accountNumber) {
