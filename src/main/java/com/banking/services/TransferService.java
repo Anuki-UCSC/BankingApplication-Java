@@ -1,8 +1,8 @@
 package com.banking.services;
 
 import com.banking.dataAccess.AccountDao;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.sharedData.CustomerData;
+import com.banking.models.AccountData;
+import com.banking.models.CustomerData;
 import com.banking.dataAccess.CustomerDao;
 import com.banking.dataAccess.TransferDao;
 import com.banking.models.Transfer;

@@ -1,11 +1,11 @@
 package com.banking.views;
 
-import com.banking.shared.exceptions.MinusInputValueException;
+import com.banking.exceptions.MinusInputValueException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static com.banking.shared.utility.ExceptionHandler.handleException;
+import static com.banking.utility.ExceptionHandler.handleException;
 
 public class BankServiceView {
 
@@ -50,8 +50,6 @@ public class BankServiceView {
 
         } catch (ArrayIndexOutOfBoundsException e) {
             handleException("OutOfBound Error Occurred", e);
-                        // COMMENT: 1/15/2024 Assume that  ArrayIndexOutOfBoundsException has occurred. Does the execution comes to this line or goes to line 58. Check that.
-                        // ANSWER: Checked. Hitting array out of bound scenarios here. detected another scenario and corrected. working fine now.
         } catch (ArithmeticException e) {
             handleException("Arithmetic Error Occurred", e);
         } catch (InputMismatchException e) {

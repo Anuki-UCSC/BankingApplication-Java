@@ -1,4 +1,4 @@
-package com.banking.shared.validations;
+package com.banking.validations;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

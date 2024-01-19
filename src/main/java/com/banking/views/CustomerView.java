@@ -1,16 +1,15 @@
 package com.banking.views;
 
 import com.banking.models.Account;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.validations.InputValidations;
-import com.banking.dataAccess.CustomerDao;
+import com.banking.models.AccountData;
+import com.banking.validations.InputValidations;
 import com.banking.models.Customer;
 import com.banking.services.CustomerService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static com.banking.shared.utility.ExceptionHandler.handleException;
+import static com.banking.utility.ExceptionHandler.handleException;
 
 public class CustomerView {
     // COMMENT: 1/15/2024 Is there a any particular reason for defining these variables globally?

@@ -1,4 +1,4 @@
-package com.banking.shared.exceptions;
+package com.banking.exceptions;
 
 public class MinusInputValueException extends Exception{
     public MinusInputValueException() {

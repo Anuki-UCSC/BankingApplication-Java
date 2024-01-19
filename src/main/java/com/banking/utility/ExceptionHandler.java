@@ -1,4 +1,4 @@
-package com.banking.shared.utility;
+package com.banking.utility;
 
 import com.banking.views.BackToMenuView;
 

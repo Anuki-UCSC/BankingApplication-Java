@@ -4,8 +4,8 @@ import com.banking.dataAccess.AccountDao;
 import com.banking.dataAccess.BillDao;
 import com.banking.models.Bill;
 import com.banking.models.BillOwner;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.sharedData.CustomerData;
+import com.banking.models.AccountData;
+import com.banking.models.CustomerData;
 import com.banking.dataAccess.CustomerDao;
 
 public class BillService {

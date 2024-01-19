@@ -1,4 +1,4 @@
-package com.banking.shared.sharedData;
+package com.banking.models;
 
 public class CustomerData {
 

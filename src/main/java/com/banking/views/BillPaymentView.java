@@ -1,13 +1,9 @@
 package com.banking.views;
 
-import com.banking.dataAccess.AccountDao;
-import com.banking.dataAccess.BillDao;
 import com.banking.models.Bill;
 import com.banking.services.BillService;
-import com.banking.services.OtpService;
-import com.banking.shared.exceptions.MinusInputValueException;
-import com.banking.shared.sharedData.CustomerData;
-import com.banking.dataAccess.CustomerDao;
+import com.banking.exceptions.MinusInputValueException;
+import com.banking.models.CustomerData;
 
 import java.util.ArrayList;
 import java.util.List;

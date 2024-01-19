@@ -1,12 +1,8 @@
 package com.banking.views;
 
-import com.banking.dataAccess.AccountDao;
-import com.banking.services.OtpService;
-import com.banking.shared.exceptions.MinusInputValueException;
-import com.banking.shared.sharedData.CustomerData;
-import com.banking.shared.validations.InputValidations;
-import com.banking.dataAccess.CustomerDao;
-import com.banking.dataAccess.TransferDao;
+import com.banking.exceptions.MinusInputValueException;
+import com.banking.models.CustomerData;
+import com.banking.validations.InputValidations;
 import com.banking.models.BankOption;
 import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;

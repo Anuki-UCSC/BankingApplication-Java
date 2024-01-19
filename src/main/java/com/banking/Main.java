@@ -1,10 +1,7 @@
 package com.banking;
 
-import com.banking.shared.exceptions.MinusInputValueException;
 import com.banking.views.BankServiceView;
 import com.banking.views.CustomerView;
-
-import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
