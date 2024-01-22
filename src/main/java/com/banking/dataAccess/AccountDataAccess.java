@@ -1,6 +1,6 @@
 package com.banking.dataAccess;
 
-public class AccountDao {
+public class AccountDataAccess {
 
     public boolean accountBalanceValidation(String fromAccountNumber, String nic, int amount) {
 

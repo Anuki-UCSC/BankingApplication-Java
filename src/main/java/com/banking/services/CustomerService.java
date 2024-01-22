@@ -3,17 +3,17 @@ package com.banking.services;
 import com.banking.models.Customer;
 import com.banking.models.AccountData;
 import com.banking.models.CustomerData;
-import com.banking.dataAccess.CustomerDao;
+import com.banking.dataAccess.CustomerDataAccess;
 
 public class CustomerService {
 
-    private CustomerDao customerDao = new CustomerDao();
+    private CustomerDataAccess customerDataAccess = new CustomerDataAccess();
 
     public CustomerService() {
     }
 
     public boolean checkCustomer(Customer customer){
-        boolean validated = customerDao.checkCustomer(customer.getName(), customer.getNic(), customer.getAccount().getAccountNumber());
+        boolean validated = customerDataAccess.checkCustomer(customer.getName(), customer.getNic(), customer.getAccount().getAccountNumber());
         return validated;
     }
 

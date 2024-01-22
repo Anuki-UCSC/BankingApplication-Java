@@ -1,29 +1,29 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDao;
+import com.banking.dataAccess.AccountDataAccess;
 import com.banking.models.AccountData;
 import com.banking.models.CustomerData;
-import com.banking.dataAccess.CustomerDao;
-import com.banking.dataAccess.TransferDao;
+import com.banking.dataAccess.CustomerDataAccess;
+import com.banking.dataAccess.TransferDataAccess;
 import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;
 
 public class TransferService {
-    private TransferDao transferDao = new TransferDao();
-    private AccountDao accountDao = new AccountDao();
-    private CustomerDao customerDao = new CustomerDao();
+    private TransferDataAccess transferDataAccess = new TransferDataAccess();
+    private AccountDataAccess accountDataAccess = new AccountDataAccess();
+    private CustomerDataAccess customerDataAccess = new CustomerDataAccess();
     private OtpService otpService = new OtpService();
 
     public TransferService() {
     }
 
     public Transfer getReceiverDetails(String accountNumber) {
-        Transfer receiverDetails = transferDao.getReceiverDetailsByAccountNumber();
+        Transfer receiverDetails = transferDataAccess.getReceiverDetailsByAccountNumber();
         return receiverDetails;
     }
 
     public boolean accountBalanceValidation(TransferDTO transferDTO) {
-        boolean isValid = accountDao.accountBalanceValidation(
+        boolean isValid = accountDataAccess.accountBalanceValidation(
                 AccountData.getAccountNumber(),
                 CustomerData.getNic(),
                 transferDTO.getAmount()
@@ -32,7 +32,7 @@ public class TransferService {
     }
 
     public void sendOTP(String user, String nic){
-        String phoneNumber = customerDao.retrievePhoneNumber(user, nic);
+        String phoneNumber = customerDataAccess.retrievePhoneNumber(user, nic);
         boolean success = otpService.sentOTP(phoneNumber);
     }
 
@@ -44,7 +44,7 @@ public class TransferService {
         String customer = CustomerData.getName();
         String nic = CustomerData.getNic();
         String fromAccountNumber = AccountData.getAccountNumber();
-        boolean success = transferDao.transaction(transferDto);
+        boolean success = transferDataAccess.transaction(transferDto);
         if (!success) {
             return false;
         }

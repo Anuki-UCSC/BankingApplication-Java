@@ -5,7 +5,7 @@ import com.banking.models.AccountHistory;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AccountHistoryDao {
+public class AccountHistoryDataAccess {
     public ArrayList<AccountHistory> getAccountHistory(String accountId){
         ArrayList<AccountHistory> accountHistorylist = new ArrayList<>();
         accountHistorylist.add(new AccountHistory(1, new Date(), "Deposit", 100.0f, 100.0f));

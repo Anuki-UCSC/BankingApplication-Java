@@ -1,17 +1,17 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDao;
-import com.banking.dataAccess.BillDao;
+import com.banking.dataAccess.AccountDataAccess;
+import com.banking.dataAccess.BillDataAccess;
 import com.banking.models.Bill;
 import com.banking.models.BillOwner;
 import com.banking.models.AccountData;
 import com.banking.models.CustomerData;
-import com.banking.dataAccess.CustomerDao;
+import com.banking.dataAccess.CustomerDataAccess;
 
 public class BillService {
-    private BillDao billDao = new BillDao();
-    private AccountDao accountDao = new AccountDao();
-    private CustomerDao customerDao = new CustomerDao();
+    private BillDataAccess billDataAccess = new BillDataAccess();
+    private AccountDataAccess accountDataAccess = new AccountDataAccess();
+    private CustomerDataAccess customerDataAccess = new CustomerDataAccess();
     private OtpService otpService = new OtpService();
 
     public BillService() {
@@ -22,13 +22,13 @@ public class BillService {
         String nic = CustomerData.getNic();
         String fromAccountNumber = AccountData.getAccountNumber();
 
-        boolean isValid = this.accountDao.accountBalanceValidation(fromAccountNumber, nic, bill.getAmount());
+        boolean isValid = this.accountDataAccess.accountBalanceValidation(fromAccountNumber, nic, bill.getAmount());
 
         return isValid;
     }
 
     public void sendOTP(String user, String nic){
-        String phoneNumber = customerDao.retrievePhoneNumber(user, nic);
+        String phoneNumber = customerDataAccess.retrievePhoneNumber(user, nic);
         boolean success = otpService.sentOTP(phoneNumber);
     }
 
@@ -46,7 +46,7 @@ public class BillService {
                 CustomerData.getNic(),
                 AccountData.getAccountNumber()
                 );
-        boolean success = billDao.billTransaction(billOwner);
+        boolean success = billDataAccess.billTransaction(billOwner);
         if (!success) {
             return false;
         }

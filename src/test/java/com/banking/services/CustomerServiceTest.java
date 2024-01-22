@@ -1,6 +1,6 @@
 package com.banking.services;
 
-import com.banking.dataAccess.CustomerDao;
+import com.banking.dataAccess.CustomerDataAccess;
 import com.banking.models.Account;
 import com.banking.models.AccountType;
 import com.banking.models.Customer;
@@ -23,7 +23,7 @@ class CustomerServiceTest {
     private CustomerService underTest;
 
     @Mock
-    private CustomerDao customerDao;
+    private CustomerDataAccess customerDataAccess;
 
 
     @Test
@@ -36,7 +36,7 @@ class CustomerServiceTest {
         Customer customer = new Customer(1, name, nic);
         customer.setAccount(new Account(accountNumber, type));
         //when
-        when(customerDao.checkCustomer(
+        when(customerDataAccess.checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber()
@@ -44,7 +44,7 @@ class CustomerServiceTest {
         boolean actualOutput = underTest.checkCustomer(customer);
 
         //then
-        verify(customerDao, Mockito.times(1)).checkCustomer(
+        verify(customerDataAccess, Mockito.times(1)).checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber());
@@ -61,14 +61,14 @@ class CustomerServiceTest {
         customer.setAccount(new Account(accountNumber, type));
 
         //when
-        when(customerDao.checkCustomer(
+        when(customerDataAccess.checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber())).thenReturn(false);
         boolean actualOutput = underTest.checkCustomer(customer);
 
         //then
-        verify(customerDao, Mockito.times(1)).checkCustomer(
+        verify(customerDataAccess, Mockito.times(1)).checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber());
