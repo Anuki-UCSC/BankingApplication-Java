@@ -1,33 +1,29 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.sharedData.CustomerData;
-import com.banking.dataAccess.CustomerDA;
-import com.banking.dataAccess.TransferDA;
+import com.banking.dataAccess.AccountDataAccess;
+import com.banking.models.AccountData;
+import com.banking.models.CustomerData;
+import com.banking.dataAccess.CustomerDataAccess;
+import com.banking.dataAccess.TransferDataAccess;
 import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;
 
 public class TransferService {
-    private TransferDA transferDA;
-    private AccountDA accountDA;
-    private CustomerDA customerDA;
-    private OtpService otpService;
+    private TransferDataAccess transferDataAccess = new TransferDataAccess();
+    private AccountDataAccess accountDataAccess = new AccountDataAccess();
+    private CustomerDataAccess customerDataAccess = new CustomerDataAccess();
+    private OtpService otpService = new OtpService();
 
-    public TransferService(TransferDA transferDA, AccountDA accountDA, CustomerDA customerDA, OtpService otpService) {
-        this.transferDA = transferDA;
-        this.accountDA = accountDA;
-        this.customerDA = customerDA;
-        this.otpService = otpService;
+    public TransferService() {
     }
 
     public Transfer getReceiverDetails(String accountNumber) {
-        Transfer receiverDetails = transferDA.getReceiverDetailsByAccountNumber();
+        Transfer receiverDetails = transferDataAccess.getReceiverDetailsByAccountNumber();
         return receiverDetails;
     }
 
     public boolean accountBalanceValidation(TransferDTO transferDTO) {
-        boolean isValid = accountDA.accountBalanceValidation(
+        boolean isValid = accountDataAccess.accountBalanceValidation(
                 AccountData.getAccountNumber(),
                 CustomerData.getNic(),
                 transferDTO.getAmount()
@@ -36,7 +32,7 @@ public class TransferService {
     }
 
     public void sendOTP(String user, String nic){
-        String phoneNumber = customerDA.retrievePhoneNumber(user, nic);
+        String phoneNumber = customerDataAccess.retrievePhoneNumber(user, nic);
         boolean success = otpService.sentOTP(phoneNumber);
     }
 
@@ -48,7 +44,7 @@ public class TransferService {
         String customer = CustomerData.getName();
         String nic = CustomerData.getNic();
         String fromAccountNumber = AccountData.getAccountNumber();
-        boolean success = transferDA.transaction(transferDto);
+        boolean success = transferDataAccess.transaction(transferDto);
         if (!success) {
             return false;
         }

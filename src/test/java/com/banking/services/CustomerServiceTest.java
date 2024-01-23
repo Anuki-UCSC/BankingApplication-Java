@@ -1,13 +1,10 @@
 package com.banking.services;
 
-import com.banking.dataAccess.CustomerDA;
+import com.banking.dataAccess.CustomerDataAccess;
 import com.banking.models.Account;
 import com.banking.models.AccountType;
 import com.banking.models.Customer;
-import com.banking.services.CustomerService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +23,7 @@ class CustomerServiceTest {
     private CustomerService underTest;
 
     @Mock
-    private CustomerDA customerDA;
+    private CustomerDataAccess customerDataAccess;
 
 
     @Test
@@ -39,7 +36,7 @@ class CustomerServiceTest {
         Customer customer = new Customer(1, name, nic);
         customer.setAccount(new Account(accountNumber, type));
         //when
-        when(customerDA.checkCustomer(
+        when(customerDataAccess.checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber()
@@ -47,7 +44,7 @@ class CustomerServiceTest {
         boolean actualOutput = underTest.checkCustomer(customer);
 
         //then
-        verify(customerDA, Mockito.times(1)).checkCustomer(
+        verify(customerDataAccess, Mockito.times(1)).checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber());
@@ -64,14 +61,14 @@ class CustomerServiceTest {
         customer.setAccount(new Account(accountNumber, type));
 
         //when
-        when(customerDA.checkCustomer(
+        when(customerDataAccess.checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber())).thenReturn(false);
         boolean actualOutput = underTest.checkCustomer(customer);
 
         //then
-        verify(customerDA, Mockito.times(1)).checkCustomer(
+        verify(customerDataAccess, Mockito.times(1)).checkCustomer(
                 customer.getName(),
                 customer.getNic(),
                 customer.getAccount().getAccountNumber());

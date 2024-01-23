@@ -1,24 +1,20 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.dataAccess.BillDA;
+import com.banking.dataAccess.AccountDataAccess;
+import com.banking.dataAccess.BillDataAccess;
 import com.banking.models.Bill;
 import com.banking.models.BillOwner;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.sharedData.CustomerData;
-import com.banking.dataAccess.CustomerDA;
+import com.banking.models.AccountData;
+import com.banking.models.CustomerData;
+import com.banking.dataAccess.CustomerDataAccess;
 
 public class BillService {
-    private AccountDA accountDA;
-    private OtpService otpService;
-    private CustomerDA customerDA;
-    private BillDA billDA;
+    private BillDataAccess billDataAccess = new BillDataAccess();
+    private AccountDataAccess accountDataAccess = new AccountDataAccess();
+    private CustomerDataAccess customerDataAccess = new CustomerDataAccess();
+    private OtpService otpService = new OtpService();
 
-    public BillService(AccountDA accountDA, OtpService otpService, CustomerDA customerDA, BillDA billDA) {
-        this.accountDA = accountDA;
-        this.otpService = otpService;
-        this.customerDA = customerDA;
-        this.billDA = billDA;
+    public BillService() {
     }
 
     public boolean accountBalanceValidation(Bill bill){
@@ -26,13 +22,13 @@ public class BillService {
         String nic = CustomerData.getNic();
         String fromAccountNumber = AccountData.getAccountNumber();
 
-        boolean isValid = this.accountDA.accountBalanceValidation(fromAccountNumber, nic, bill.getAmount());
+        boolean isValid = this.accountDataAccess.accountBalanceValidation(fromAccountNumber, nic, bill.getAmount());
 
         return isValid;
     }
 
     public void sendOTP(String user, String nic){
-        String phoneNumber = customerDA.retrievePhoneNumber(user, nic);
+        String phoneNumber = customerDataAccess.retrievePhoneNumber(user, nic);
         boolean success = otpService.sentOTP(phoneNumber);
     }
 
@@ -50,7 +46,7 @@ public class BillService {
                 CustomerData.getNic(),
                 AccountData.getAccountNumber()
                 );
-        boolean success = billDA.billTransaction(billOwner);
+        boolean success = billDataAccess.billTransaction(billOwner);
         if (!success) {
             return false;
         }

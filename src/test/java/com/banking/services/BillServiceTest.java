@@ -1,12 +1,12 @@
 package com.banking.services;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.dataAccess.BillDA;
+import com.banking.dataAccess.AccountDataAccess;
+import com.banking.dataAccess.BillDataAccess;
 import com.banking.models.Bill;
-import com.banking.dataAccess.CustomerDA;
+import com.banking.dataAccess.CustomerDataAccess;
 import com.banking.models.BillOwner;
-import com.banking.shared.sharedData.AccountData;
-import com.banking.shared.sharedData.CustomerData;
+import com.banking.models.AccountData;
+import com.banking.models.CustomerData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,9 @@ class BillServiceTest {
 
     @InjectMocks private BillService underTest;
     @Mock private OtpService otpService;
-    @Mock private AccountDA accountDA;
-    @Mock private CustomerDA customerDA;
-    @Mock private BillDA billDA;
+    @Mock private AccountDataAccess accountDataAccess;
+    @Mock private CustomerDataAccess customerDataAccess;
+    @Mock private BillDataAccess billDataAccess;
 
     @Mock CustomerData customerData;
     @Mock AccountData accountData;
@@ -52,12 +52,12 @@ class BillServiceTest {
 
 
         // when
-        when(accountDA.accountBalanceValidation(anyString(),anyString(),anyInt()))
+        when(accountDataAccess.accountBalanceValidation(anyString(),anyString(),anyInt()))
                 .thenReturn(true);
         boolean actualOutput = underTest.accountBalanceValidation(bill);
 
         // then
-        verify(accountDA, Mockito.times(1)).accountBalanceValidation(anyString(),anyString(),anyInt());
+        verify(accountDataAccess, Mockito.times(1)).accountBalanceValidation(anyString(),anyString(),anyInt());
         assertTrue(actualOutput);
     }
 
@@ -75,11 +75,11 @@ class BillServiceTest {
         Bill bill = new Bill(option,toAccountNumber,amount);
 
         // when
-        when(accountDA.accountBalanceValidation(fromAccountNumber, nic, amount)).thenReturn(false);
+        when(accountDataAccess.accountBalanceValidation(fromAccountNumber, nic, amount)).thenReturn(false);
         boolean actualOutput = underTest.accountBalanceValidation(bill);
 
         // then
-        verify(accountDA, Mockito.times(1)).accountBalanceValidation(fromAccountNumber, nic, amount);
+        verify(accountDataAccess, Mockito.times(1)).accountBalanceValidation(fromAccountNumber, nic, amount);
         assertFalse(actualOutput);
     }
 
@@ -91,12 +91,12 @@ class BillServiceTest {
         String nic = "844442111v";
 
         // when
-        when(customerDA.retrievePhoneNumber(user,nic)).thenReturn("0712020321");
+        when(customerDataAccess.retrievePhoneNumber(user,nic)).thenReturn("0712020321");
         when(otpService.sentOTP("0712020321")).thenReturn(true);
         underTest.sendOTP(user,nic);
 
         // then (Assert)
-        verify(customerDA,Mockito.times(1)).retrievePhoneNumber(user,nic);
+        verify(customerDataAccess,Mockito.times(1)).retrievePhoneNumber(user,nic);
         verify(otpService, Mockito.times(1)).sentOTP("0712020321");
     }
 
@@ -122,7 +122,7 @@ class BillServiceTest {
         // then
         assertFalse(actualOutput);
         verify(otpService, Mockito.times(1)).authorizeOTP(userGivenOtp);
-        verify(billDA, Mockito.times(0)).billTransaction(any());
+        verify(billDataAccess, Mockito.times(0)).billTransaction(any());
     }
 
     @DisplayName("BillPaymentProceedTransaction - failing path 2")
@@ -137,13 +137,13 @@ class BillServiceTest {
 
         // when
         when(otpService.authorizeOTP(221155)).thenReturn(true);
-        when(billDA.billTransaction(any(BillOwner.class))).thenReturn(false);
+        when(billDataAccess.billTransaction(any(BillOwner.class))).thenReturn(false);
         boolean actualOutput = underTest.authorizeAndProceedTransaction(userGivenOtp,bill);
 
         // then
         assertFalse(actualOutput);
         verify(otpService, Mockito.times(1)).authorizeOTP(eq(userGivenOtp));
-        verify(billDA, Mockito.times(1)).billTransaction(any(BillOwner.class));
+        verify(billDataAccess, Mockito.times(1)).billTransaction(any(BillOwner.class));
     }
 
     @DisplayName("BillPaymentProceedTransaction - happy path")
@@ -158,12 +158,12 @@ class BillServiceTest {
 
         // when
         when(otpService.authorizeOTP(221155)).thenReturn(true);
-        when(billDA.billTransaction(any(BillOwner.class))).thenReturn(true);
+        when(billDataAccess.billTransaction(any(BillOwner.class))).thenReturn(true);
         boolean actualOutput = underTest.authorizeAndProceedTransaction(userGivenOtp,bill);
 
         // then
         assertTrue(actualOutput);
         verify(otpService, Mockito.times(1)).authorizeOTP(userGivenOtp);
-        verify(billDA, Mockito.times(1)).billTransaction(any(BillOwner.class));
+        verify(billDataAccess, Mockito.times(1)).billTransaction(any(BillOwner.class));
     }
 }

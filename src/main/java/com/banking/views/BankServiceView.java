@@ -1,9 +1,11 @@
 package com.banking.views;
 
-import com.banking.shared.exceptions.MinusInputValueException;
+import com.banking.exceptions.MinusInputValueException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static com.banking.utility.ExceptionHandler.handleException;
 
 public class BankServiceView {
 
@@ -58,11 +60,4 @@ public class BankServiceView {
             handleException("Error Occurred", e);
         }
     }
-
-    private static void handleException(String message, Exception e) throws Exception {
-        System.out.println(message + " : " + e);
-        BackToMenuView backToMenuView = new BackToMenuView();
-        backToMenuView.showView();
-    }
-
 }

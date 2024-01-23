@@ -1,12 +1,8 @@
 package com.banking.views;
 
-import com.banking.dataAccess.AccountDA;
-import com.banking.services.OtpService;
-import com.banking.shared.exceptions.MinusInputValueException;
-import com.banking.shared.sharedData.CustomerData;
-import com.banking.shared.validations.InputValidations;
-import com.banking.dataAccess.CustomerDA;
-import com.banking.dataAccess.TransferDA;
+import com.banking.exceptions.MinusInputValueException;
+import com.banking.models.CustomerData;
+import com.banking.validations.InputValidations;
 import com.banking.models.BankOption;
 import com.banking.models.Transfer;
 import com.banking.models.TransferDTO;
@@ -20,11 +16,7 @@ public class TransferMoneyView implements BankingView{
 
     private BackToMenuView backToMenuView;
     private TransferService transferService;
-    private TransferDA transferDA;
-    private AccountDA accountDA;
-    private CustomerDA customerDA;
     private TransferDTO transferDTO;
-    private OtpService otpService;
     private ArrayList<BankOption> bankOptionsList = new ArrayList<BankOption>();
     public Scanner scanner = new Scanner(System.in);
     private final InputValidations inputValidations = new InputValidations();
@@ -36,11 +28,7 @@ public class TransferMoneyView implements BankingView{
         bankOptionsList.add(bankOption1);
         bankOptionsList.add(bankOption2);
         this.transferDTO = new TransferDTO();
-        this.transferDA = new TransferDA();
-        this.accountDA = new AccountDA();
-        this.customerDA = new CustomerDA();
-        this.otpService = new OtpService();
-        this.transferService = new TransferService(transferDA, accountDA, customerDA, otpService);
+        this.transferService = new TransferService();
     }
 
     public void showView() throws Exception {
@@ -54,6 +42,9 @@ public class TransferMoneyView implements BankingView{
 
         //get input option
         int bankOption = this.getInputBankOption();
+        if(bankOptionsList.stream().noneMatch(option -> option.getNumber() == bankOption)){
+            throw new ArrayIndexOutOfBoundsException("Invalid Bank option: "+bankOption +" out of bounds for length "+bankOptionsList.size());
+        }
 
         //get input account number
         String toAccountNumber = this.getTransferAccountNumberAsUserInput();
@@ -99,6 +90,8 @@ public class TransferMoneyView implements BankingView{
             isValidAccountNumber = inputValidations.validateAccountNumber(toAccountNumber);
             if(isValidAccountNumber){
                 transferDTO.setToAccountNumber(toAccountNumber);
+            }else {
+                System.out.println("Invalid input! Please enter valid Account Number.");
             }
         }while (!isValidAccountNumber);
         return toAccountNumber;
